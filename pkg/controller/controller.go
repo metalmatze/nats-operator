@@ -273,7 +273,7 @@ func (c *Controller) watch(watchVersion string) (<-chan *Event, <-chan error) {
 				return
 			}
 
-			c.logger.Infof("start watching at %v", watchVersion)
+			c.logger.Debugf("start watching at %v", watchVersion)
 
 			decoder := json.NewDecoder(resp.Body)
 			for {
@@ -282,7 +282,7 @@ func (c *Controller) watch(watchVersion string) (<-chan *Event, <-chan error) {
 					// API Server will close stream periodically so schedule a reconnect,
 					// also recover in case connection was broken for some reason.
 					if err == io.EOF || err == io.ErrUnexpectedEOF {
-						c.logger.Info("apiserver closed watch stream, retrying after 5s...")
+						c.logger.Debug("apiserver closed watch stream, retrying after 5s...")
 						time.Sleep(5 * time.Second)
 						break
 					}
